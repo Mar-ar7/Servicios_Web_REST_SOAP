@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>LogiTrack – Panel Simple</title>
+
+    <!-- TIPOGRAFÍA URBANIST -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* ======================= GENERAL ======================= */
+        body {
+            margin: 0;
+            background: #f2f2f7;
+            font-family: 'Urbanist', sans-serif;
+            color: #1c1c1e;
+        }
+
+        /* ======================= HEADER ======================= */
+        header {
+            background: #1c1c1e;
+            padding: 22px 40px;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+        }
+
+        /* ======================= NAV REDISEÑADO ======================= */
+        #nav {
+            background: #1c1c1e;
+            padding: 16px 40px;
+            display: flex;
+            gap: 28px;
+            border-bottom: 1px solid #2c2c2e;
+        }
+
+        #nav button {
+            position: relative;
+            background: transparent;
+            color: #d2d2d7;
+            border: none;
+            padding: 8px 4px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: .25s;
+        }
+
+        #nav button:hover {
+            color: white;
+        }
+
+        #nav button.active {
+            color: #34c759;
+        }
+
+        #nav button.active::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 70%;
+            height: 3px;
+            background: #34c759;
+            border-radius: 3px;
+        }
+
+        /* ======================= MAIN ======================= */
+        main {
+            padding: 40px;
+        }
+
+        /* ======================= TARJETAS ======================= */
+        .card {
+            background: white;
+            padding: 26px;
+            border-radius: 18px;
+            border: 1px solid #e5e5ea;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+            margin-bottom: 28px;
+            transition: .25s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 20px;
+            margin-bottom: 14px;
+            color: #1c1c1e;
+            font-weight: 600;
+        }
+
+        /* ======================= INPUTS ======================= */
+        label {
+            display: block;
+            margin-top: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #3a3a3c;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px 14px;
+            margin-top: 4px;
+            border-radius: 12px;
+            border: 1px solid #d1d1d6;
+            background: #f9f9fb;
+            font-size: 15px;
+            transition: .25s;
+            font-family: 'Urbanist', sans-serif;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #34c759;
+            box-shadow: 0 0 0 3px rgba(52,199,89,0.25);
+        }
+
+        /* ======================= BOTONES ======================= */
+        button.primary {
+            background: #34c759;
+            border: none;
+            color: #000;
+            padding: 12px 18px;
+            border-radius: 12px;
+            margin-top: 18px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: .25s;
+        }
+
+        button.primary:hover {
+            background: #2ec451;
+        }
+
+        button.secondary {
+            background: #d1d1d6;
+            color: #000;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            margin-top: 12px;
+            font-size: 14px;
+            transition: .25s;
+            font-weight: 500;
+        }
+
+        button.secondary:hover {
+            background: #bcbcbe;
+        }
+
+        /* ======================= ROWS ======================= */
+        .row {
+            display: flex;
+            gap: 14px;
+        }
+
+        .row > div {
+            flex: 1;
+        }
+
+        /* ======================= TABLAS ======================= */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            font-family: 'Urbanist', sans-serif;
+        }
+
+        table thead {
+            background: #e5e5ea;
+        }
+
+        table th,
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #d1d1d6;
+            font-size: 15px;
+        }
+
+        table tbody tr:hover {
+            background: #f2f2f7;
+        }
+
+        /* ======================= LOG ======================= */
+        #log {
+            position: fixed;
+            right: 15px;
+            bottom: 15px;
+            background: #1c1c1e;
+            color: #fff;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            max-width: 360px;
+            max-height: 200px;
+            overflow: auto;
+            box-shadow: 0 3px 18px rgba(0,0,0,0.4);
+            opacity: .95;
+        }
+
+        /* ======================= SECCIONES ======================= */
+        section { display: none; }
+        section.active { display: block; }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>LogiTrack – Cliente REST (CRUD mínimo)</h1>
+</header>
+
+<!-- ===================== NAV ===================== -->
+<div id="nav">
+    <button class="active" onclick="showSection('secProducts', this)">Productos</button>
+    <button onclick="showSection('secCustomers', this)">Clientes</button>
+    <button onclick="showSection('secOrders', this)">Órdenes</button>
+    <button onclick="showSection('secPayments', this)">Pagos</button>
+    <button onclick="showSection('secReports', this)">Reporte</button>
+</div>
+
+<main>
+
+    <!-- ===================== PRODUCTOS ===================== -->
+    <section id="secProducts" class="active">
+        <h2>Productos</h2>
+
+        <div class="card">
+            <h3>Nuevo / Editar producto</h3>
+            <input type="hidden" id="prodId">
+
+            <div class="row">
+                <div>
+                    <label>Nombre</label>
+                    <input type="text" id="prodName">
+                </div>
+                <div>
+                    <label>Categoría</label>
+                    <input type="text" id="prodCategory">
+                </div>
+            </div>
+
+            <label>Descripción</label>
+            <input type="text" id="prodDescription">
+
+            <div class="row">
+                <div>
+                    <label>Precio</label>
+                    <input type="number" id="prodPrice" step="0.01">
+                </div>
+                <div style="margin-top: 32px;">
+                    <label>
+                        <input type="checkbox" id="prodActive" checked> Activo
+                    </label>
+                </div>
+            </div>
+
+            <button class="primary" onclick="saveProduct()">Guardar producto</button>
+            <button class="secondary" onclick="clearProductForm()">Limpiar formulario</button>
+        </div>
+
+        <div class="card">
+            <h3>Listado de productos</h3>
+            <button class="secondary" onclick="loadProducts()">Cargar productos</button>
+
+            <table id="tblProducts">
+                <thead>
+                <tr>
+                    <th>ID</th><th>Nombre</th><th>Categoría</th>
+                    <th>Precio</th><th>Activo</th><th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ===================== CLIENTES ===================== -->
+    <section id="secCustomers">
+        <h2>Clientes</h2>
+
+        <div class="card">
+            <h3>Nuevo / Editar cliente</h3>
+            <input type="hidden" id="custId">
+
+            <label>Nombre completo</label>
+            <input type="text" id="custFullName">
+
+            <label>NIT / Tax ID</label>
+            <input type="text" id="custTaxId">
+
+            <div class="row">
+                <div>
+                    <label>Email</label>
+                    <input type="email" id="custEmail">
+                </div>
+                <div>
+                    <label>Dirección</label>
+                    <input type="text" id="custAddress">
+                </div>
+            </div>
+
+            <label style="margin-top: 15px;">
+                <input type="checkbox" id="custActive" checked> Activo
+            </label>
+
+            <button class="primary" onclick="saveCustomer()">Guardar cliente</button>
+            <button class="secondary" onclick="clearCustomerForm()">Limpiar formulario</button>
+        </div>
+
+        <div class="card">
+            <h3>Listado de clientes</h3>
+            <button class="secondary" onclick="loadCustomers()">Cargar clientes</button>
+
+            <table id="tblCustomers">
+                <thead>
+                <tr>
+                    <th>ID</th><th>Nombre</th><th>NIT</th>
+                    <th>Email</th><th>Activo</th><th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ===================== ÓRDENES ===================== -->
+    <section id="secOrders">
+        <h2>Órdenes</h2>
+
+        <div class="card">
+            <h3>Crear orden</h3>
+            <label>ID Cliente</label>
+            <input type="number" id="ordCustomerId">
+            <button class="primary" onclick="createOrder()">Crear orden</button>
+        </div>
+
+        <div class="card">
+            <h3>Agregar ítem a orden</h3>
+            <div class="row">
+                <div>
+                    <label>ID Orden</label>
+                    <input type="number" id="ordItemOrderId">
+                </div>
+                <div>
+                    <label>ID Producto</label>
+                    <input type="number" id="ordItemProductId">
+                </div>
+                <div>
+                    <label>Cantidad</label>
+                    <input type="number" id="ordItemQuantity">
+                </div>
+            </div>
+            <button class="primary" onclick="addOrderItem()">Agregar ítem</button>
+        </div>
+
+        <div class="card">
+            <h3>Cambiar estado de orden</h3>
+            <div class="row">
+                <div>
+                    <label>ID Orden</label>
+                    <input type="number" id="ordStatusOrderId">
+                </div>
+                <div>
+                    <label>Nuevo estado</label>
+                    <input type="text" id="ordStatusNew" placeholder="Pending, Completed...">
+                </div>
+            </div>
+            <button class="primary" onclick="changeOrderStatus()">Cambiar estado</button>
+        </div>
+
+        <div class="card">
+            <h3>Listado de órdenes</h3>
+            <button class="secondary" onclick="loadOrders()">Cargar órdenes</button>
+
+            <table id="tblOrders">
+                <thead>
+                <tr>
+                    <th>ID</th><th>Cliente</th><th>Fecha</th>
+                    <th>Estado</th><th>Total</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ===================== PAGOS ===================== -->
+    <section id="secPayments">
+        <h2>Pagos</h2>
+
+        <div class="card">
+            <h3>Registrar pago</h3>
+            <div class="row">
+                <div>
+                    <label>ID Orden</label>
+                    <input type="number" id="payOrderId">
+                </div>
+                <div>
+                    <label>Monto</label>
+                    <input type="number" id="payAmount" step="0.01">
+                </div>
+                <div>
+                    <label>Método</label>
+                    <input type="text" id="payMethod" placeholder="cash, card, transfer...">
+                </div>
+            </div>
+            <button class="primary" onclick="registerPayment()">Registrar pago</button>
+        </div>
+
+        <div class="card">
+            <h3>Pagos por orden</h3>
+            <label>ID Orden</label>
+            <input type="number" id="paySearchOrderId">
+            <button class="secondary" onclick="loadPaymentsByOrder()">Ver pagos</button>
+
+            <table id="tblPayments">
+                <thead>
+                <tr>
+                    <th>ID</th><th>Monto</th><th>Método</th>
+                    <th>Fecha</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ===================== REPORTES ===================== -->
+    <section id="secReports">
+        <h2>Reporte – Top productos</h2>
+
+        <div class="card">
+            <h3>Top productos más vendidos</h3>
+            <label>Límite</label>
+            <input type="number" id="repLimit" value="10">
+            <button class="primary" onclick="loadTopProducts()">Cargar reporte</button>
+
+            <table id="tblTopProducts">
+                <thead>
+                <tr>
+                    <th>ID</th><th>Nombre</th><th>Categoría</th>
+                    <th>Cantidad vendida</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<div id="log">Listo.</div>
+
+
+
+<script>
+    /* ======================= JS ======================= */
+
+    const API_BASE = 'api';
+
+    function log(msg) {
+        const logDiv = document.getElementById('log');
+        const now = new Date().toLocaleTimeString();
+        logDiv.textContent = '[' + now + '] ' + msg;
+    }
+
+    function showSection(id, btn) {
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.querySelectorAll('#nav button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    /* ======================= UTIL REQUEST ======================= */
+    async function apiRequest(path, options = {}) {
+        const url = API_BASE + path;
+        const config = {
+            ...options,
+            headers: { "Content-Type": "application/json" }
+        };
+
+        try {
+            const resp = await fetch(url, config);
+            if (!resp.ok) throw new Error(`HTTP ${resp.status} - ${await resp.text()}`);
+
+            if (resp.status === 204) return null;
+
+            const ct = resp.headers.get("Content-Type") || "";
+            return ct.includes("application/json") ? resp.json() : resp.text();
+
+        } catch (e) {
+            log("Error: " + e.message);
+            alert("Error: " + e.message);
+            throw e;
+        }
+    }
+
+    /* ======================= PRODUCTOS ======================= */
+
+    async function loadProducts() {
+        const data = await apiRequest("/products", { method: "GET" });
+        const tbody = document.querySelector("#tblProducts tbody");
+        tbody.innerHTML = "";
+
+        data.forEach(p => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+            <td>${p.productId}</td>
+            <td>${p.name}</td>
+            <td>${p.category || ""}</td>
+            <td>${p.price}</td>
+            <td>${p.active ? "Sí" : "No"}</td>
+            <td>
+                <button class="secondary" onclick='editProduct(${JSON.stringify(p).replace(/"/g, "&quot;")})'>Editar</button>
+                <button class="secondary" onclick='toggleProductStatus(${p.productId}, ${p.active})'>
+                    ${p.active ? "Desactivar" : "Activar"}
+                </button>
+            </td>
+        `;
+            tbody.appendChild(tr);
+        });
+
+        log("Productos cargados.");
+    }
+
+    function editProduct(p) {
+        document.getElementById("prodId").value = p.productId;
+        document.getElementById("prodName").value = p.name;
+        document.getElementById("prodCategory").value = p.category;
+        document.getElementById("prodDescription").value = p.description;
+        document.getElementById("prodPrice").value = p.price;
+        document.getElementById("prodActive").checked = p.active;
+    }
+
+    function clearProductForm() {
+        document.getElementById("prodId").value = "";
+        document.getElementById("prodName").value = "";
+        document.getElementById("prodCategory").value = "";
+        document.getElementById("prodDescription").value = "";
+        document.getElementById("prodPrice").value = "";
+        document.getElementById("prodActive").checked = true;
+    }
+
+    async function saveProduct() {
+        const id = document.getElementById("prodId").value;
+
+        const body = {
+            name: document.getElementById("prodName").value,
+            category: document.getElementById("prodCategory").value,
+            description: document.getElementById("prodDescription").value,
+            price: parseFloat(document.getElementById("prodPrice").value),
+            active: document.getElementById("prodActive").checked
+        };
+
+        if (!body.name) return alert("El nombre es obligatorio");
+
+        if (id) {
+            await apiRequest(`/products/${id}`, { method: "PUT", body: JSON.stringify(body) });
+            log("Producto actualizado.");
+        } else {
+            await apiRequest("/products", { method: "POST", body: JSON.stringify(body) });
+            log("Producto creado.");
+        }
+
+        clearProductForm();
+        loadProducts();
+    }
+
+    async function toggleProductStatus(id, current) {
+        await apiRequest(`/products/${id}/status?active=${!current}`, { method: "PATCH" });
+        log("Estado actualizado.");
+        loadProducts();
+    }
+
+    /* ======================= CLIENTES ======================= */
+
+    async function loadCustomers() {
+        const data = await apiRequest("/customers", { method: "GET" });
+        const tbody = document.querySelector("#tblCustomers tbody");
+        tbody.innerHTML = "";
+
+        data.forEach(c => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+            <td>${c.customerId}</td>
+            <td>${c.fullName}</td>
+            <td>${c.taxId || ""}</td>
+            <td>${c.email || ""}</td>
+            <td>${c.active ? "Sí" : "No"}</td>
+            <td>
+                <button class="secondary" onclick='editCustomer(${JSON.stringify(c).replace(/"/g, "&quot;")})'>Editar</button>
+                <button class="secondary" onclick='toggleCustomerStatus(${c.customerId}, ${c.active})'>
+                    ${c.active ? "Desactivar" : "Activar"}
+                </button>
+            </td>
+        `;
+            tbody.appendChild(tr);
+        });
+
+        log("Clientes cargados.");
+    }
+
+    function editCustomer(c) {
+        document.getElementById("custId").value = c.customerId;
+        document.getElementById("custFullName").value = c.fullName;
+        document.getElementById("custTaxId").value = c.taxId;
+        document.getElementById("custEmail").value = c.email;
+        document.getElementById("custAddress").value = c.address;
+        document.getElementById("custActive").checked = c.active;
+    }
+
+    function clearCustomerForm() {
+        document.getElementById("custId").value = "";
+        document.getElementById("custFullName").value = "";
+        document.getElementById("custTaxId").value = "";
+        document.getElementById("custEmail").value = "";
+        document.getElementById("custAddress").value = "";
+        document.getElementById("custActive").checked = true;
+    }
+
+    async function saveCustomer() {
+        const id = document.getElementById("custId").value;
+
+        const body = {
+            fullName: document.getElementById("custFullName").value,
+            taxId: document.getElementById("custTaxId").value,
+            email: document.getElementById("custEmail").value,
+            address: document.getElementById("custAddress").value,
+            active: document.getElementById("custActive").checked
+        };
+
+        if (!body.fullName) return alert("El nombre es obligatorio");
+
+        if (id) {
+            await apiRequest(`/customers/${id}`, { method: "PUT", body: JSON.stringify(body) });
+            log("Cliente actualizado.");
+        } else {
+            await apiRequest("/customers", { method: "POST", body: JSON.stringify(body) });
+            log("Cliente creado.");
+        }
+
+        clearCustomerForm();
+        loadCustomers();
+    }
+
+    async function toggleCustomerStatus(id, current) {
+        await apiRequest(`/customers/${id}/status?active=${!current}`, { method: "PATCH" });
+        log("Estado actualizado.");
+        loadCustomers();
+    }
+
+    /* ======================= ÓRDENES ======================= */
+
+    async function createOrder() {
+        const cid = parseInt(document.getElementById("ordCustomerId").value);
+        if (!cid) return alert("Debes ingresar un ID válido");
+
+        await apiRequest("/orders", {
+            method: "POST",
+            body: JSON.stringify({ customerId: cid })
+        });
+
+        log("Orden creada.");
+        loadOrders();
+    }
+
+    async function addOrderItem() {
+        const orderId = parseInt(document.getElementById("ordItemOrderId").value);
+        const productId = parseInt(document.getElementById("ordItemProductId").value);
+        const qty = parseInt(document.getElementById("ordItemQuantity").value);
+
+        if (!orderId || !productId || !qty) return alert("Todos los campos son obligatorios");
+
+        await apiRequest(`/orders/${orderId}/items`, {
+            method: "POST",
+            body: JSON.stringify({ productId, quantity: qty })
+        });
+
+        log("Ítem agregado.");
+        loadOrders();
+    }
+
+    async function changeOrderStatus() {
+        const orderId = parseInt(document.getElementById("ordStatusOrderId").value);
+        const status = document.getElementById("ordStatusNew").value;
+
+        if (!orderId || !status) return alert("Completa todos los campos");
+
+        await apiRequest(`/orders/${orderId}/status`, {
+            method: "PATCH",
+            body: JSON.stringify({ status })
+        });
+
+        log("Estado actualizado.");
+        loadOrders();
+    }
+
+    async function loadOrders() {
+        const data = await apiRequest("/orders", { method: "GET" });
+        const tbody = document.querySelector("#tblOrders tbody");
+        tbody.innerHTML = "";
+
+        data.forEach(o => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+            <td>${o.orderId}</td>
+            <td>${o.customer ? (o.customer.fullName || o.customer.customerId) : ""}</td>
+            <td>${o.orderDate || ""}</td>
+            <td>${o.status}</td>
+            <td>${o.totalAmount}</td>
+        `;
+            tbody.appendChild(tr);
+        });
+
+        log("Órdenes cargadas.");
+    }
+
+    /* ======================= PAGOS ======================= */
+
+    async function registerPayment() {
+        const orderId = parseInt(document.getElementById("payOrderId").value);
+        const amount = parseFloat(document.getElementById("payAmount").value);
+        const method = document.getElementById("payMethod").value;
+
+        if (!orderId || !amount || !method) return alert("Completa los campos");
+
+        await apiRequest("/payments", {
+            method: "POST",
+            body: JSON.stringify({ orderId, amount, method })
+        });
+
+        log("Pago registrado.");
+    }
+
+    async function loadPaymentsByOrder() {
+        const orderId = parseInt(document.getElementById("paySearchOrderId").value);
+        if (!orderId) return alert("Debes ingresar un ID");
+
+        const data = await apiRequest(`/payments/by-order/${orderId}`, {
+            method: "GET"
+        });
+
+        const tbody = document.querySelector("#tblPayments tbody");
+        tbody.innerHTML = "";
+
+        data.forEach(p => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+            <td>${p.paymentId}</td>
+            <td>${p.amount}</td>
+            <td>${p.method}</td>
+            <td>${p.paymentDate || ""}</td>
+        `;
+            tbody.appendChild(tr);
+        });
+
+        log("Pagos cargados.");
+    }
+
+    /* ======================= REPORTES ======================= */
+
+    async function loadTopProducts() {
+        const limit = parseInt(document.getElementById("repLimit").value);
+
+        const data = await apiRequest(`/reports/top-products?limit=${limit}`, {
+            method: "GET"
+        });
+
+        const tbody = document.querySelector("#tblTopProducts tbody");
+        tbody.innerHTML = "";
+
+        data.forEach(row => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+            <td>${row.productId}</td>
+            <td>${row.name}</td>
+            <td>${row.category || ""}</td>
+            <td>${row.totalQuantity}</td>
+        `;
+            tbody.appendChild(tr);
+        });
+
+        log("Reporte cargado.");
+    }
+
+    /* CARGA INICIAL */
+    loadProducts();
+
+</script>
+
+</body>
+</html>
